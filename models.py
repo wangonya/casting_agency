@@ -87,7 +87,7 @@ class Actor(db.Model, ModelUtils):
     id = Column(Integer, primary_key=True)
     name = Column(String(80), required=True)
     gender = Column(String(6), required=True)
-    movies = db.relationship('Movie', backref='movies_list', lazy=True)
+    movies = db.relationship('Movie', secondary=relationship_table, backref='movies_list', lazy=True)
 
     def __repr__(self):
         return f"<Actor {self.id} {self.name}>"

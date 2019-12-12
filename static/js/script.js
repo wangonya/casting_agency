@@ -45,7 +45,6 @@ const submitActor = async () => {
       throw data.message;
     }
   } catch (error) {
-    console.error(error);
     iziToast.error({
       title: "Error",
       message: error,

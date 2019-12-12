@@ -1,57 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Casting Agency</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js" integrity="sha256-321PxS+POvbvWcIVoRZeRmf32q7fTFQJ21bXwTNWREY=" crossorigin="anonymous"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Casting Agency</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"
+	        integrity="sha256-321PxS+POvbvWcIVoRZeRmf32q7fTFQJ21bXwTNWREY=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+	<div id="" class="navbar-menu">
+		<div class="navbar-end">
+			<a class="navbar-item" href="/movies">
+				Movies
+			</a>
+			<a class="navbar-item" href="/actors">
+				Actors
+			</a>
+			<div class="navbar-item">
+				<div class="buttons">
+					<a class="button is-primary" href="/login">
+						<strong>Log in</strong>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>
 
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-end">
-            <a class="navbar-item">
-            Home
-          </a>
-          <a class="navbar-item">
-            Documentation
-          </a>
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button is-primary">
-                <strong>Log in</strong>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+<div class="container is-fluid">
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			{% for category, message in messages %}
+				<script>
+            iziToast.{{category}}({
+                message: '{{message}}',
+            });
+				</script>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
 
-    <div class="container is-fluid">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <script>
-                        iziToast.{{category}}({
-                            message: '{{message}}',
-                        });
-                    </script>
-                {% endfor %}
-          {% endif %}
-        {% endwith %}
-        {% block login %}{% endblock %}
-    </div>
+	{% block login %}{% endblock %}
+	{% block movies %}{% endblock %}
+	{% block actors %}{% endblock %}
+</div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

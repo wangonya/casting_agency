@@ -1,13 +1,25 @@
-from flask import Flask, jsonify
+import os
+
+from flask import Flask, jsonify, render_template, flash
 from auth import AuthError
 
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET')
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+@app.route('/movies')
+def movies():
+    return render_template('movies.html')
 
+
+@app.route('/actors')
+def actors():
+    return render_template('actors.html')
+
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 # Error Handling
 

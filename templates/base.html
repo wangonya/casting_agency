@@ -10,6 +10,9 @@
 	        integrity="sha256-321PxS+POvbvWcIVoRZeRmf32q7fTFQJ21bXwTNWREY=" crossorigin="anonymous"></script>
 </head>
 <body>
+
+{# nav #}
+
 <nav class="navbar" role="navigation" aria-label="main navigation">
 	<div id="" class="navbar-menu">
 		<div class="navbar-end">
@@ -24,7 +27,7 @@
 					<a class="button is-primary" href="/login">
 						<strong>Log in</strong>
 					</a>
-					<a class="button is-primary" href="/login">
+					<a class="button is-primary modal-button" data-target="#actorModal" aria-haspopup="true">
 						<strong>Add actor</strong>
 					</a>
 					<a class="button is-primary" href="/login">
@@ -37,6 +40,9 @@
 </nav>
 
 <div class="container is-fluid">
+
+	{# flashes #}
+
 	{% with messages = get_flashed_messages(with_categories=true) %}
 		{% if messages %}
 			{% for category, message in messages %}
@@ -48,6 +54,46 @@
 			{% endfor %}
 		{% endif %}
 	{% endwith %}
+
+	{# modals #}
+
+	{# add actor modal #}
+	<div class="modal" id="actorModal">
+		<div class="modal-background"></div>
+		<div class="modal-content">
+			<form class="box" onsubmit="event.preventDefault(); submitActor()" id="actorForm">
+				<div class="field">
+					<label class="label">Name</label>
+					<div class="control">
+						<input class="input" type="text" placeholder="Actor's name" name="name">
+					</div>
+				</div>
+				<div class="field">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="gender" value="M">
+							Male
+						</label>
+						<label class="radio">
+							<input type="radio" name="gender" value="F">
+							Female
+						</label>
+					</div>
+					<br>
+					<div class="field is-grouped">
+						<div class="control">
+							<button class="button is-primary">
+								<strong>Submit</strong>
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<button class="modal-close is-large" aria-label="close"></button>
+	</div>
+
+	{# extended pages	#}
 
 	{% block login %}{% endblock %}
 	{% block movies %}{% endblock %}

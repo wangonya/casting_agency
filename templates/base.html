@@ -41,20 +41,6 @@
 
 <div class="container is-fluid">
 
-	{# flashes #}
-
-	{% with messages = get_flashed_messages(with_categories=true) %}
-		{% if messages %}
-			{% for category, message in messages %}
-				<script>
-            iziToast.{{category}}({
-                message: '{{message}}',
-            });
-				</script>
-			{% endfor %}
-		{% endif %}
-	{% endwith %}
-
 	{# modals #}
 
 	{# add actor modal #}

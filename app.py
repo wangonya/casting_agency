@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, jsonify, render_template, flash, request, abort
+from flask import Flask, jsonify, render_template, request, abort
 from auth import AuthError
 from models import setup_db, db_drop_and_create_all, Actor, Movie
 

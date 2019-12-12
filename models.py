@@ -1,7 +1,6 @@
 import os
 from sqlalchemy import (
-    Column, String, Integer, Table, PrimaryKeyConstraint,
-    ForeignKey,
+    Column, String, Integer, Table, ForeignKey,
 )
 from flask_sqlalchemy import SQLAlchemy
 

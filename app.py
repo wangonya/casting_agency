@@ -1,10 +1,13 @@
 import os
 
-from flask import Flask, jsonify, render_template, flash
+from flask import Flask, jsonify, render_template, flash, request, abort
 from auth import AuthError
+from models import setup_db, db_drop_and_create_all, Actor, Movie
 
 app = Flask(__name__)
+setup_db(app)
 app.secret_key = os.getenv('SECRET')
+# db_drop_and_create_all()
 
 
 @app.route('/movies')
@@ -15,6 +18,27 @@ def movies():
 @app.route('/actors')
 def actors():
     return render_template('actors.html')
+
+
+@app.route('/actors', methods=['POST'])
+def add_actor():
+    name = request.form.get('name')
+    gender = request.form.get('gender')
+    try:
+        data = name and gender
+        if not data:
+            abort(400)
+    except (TypeError, KeyError):
+        abort(400)
+
+    try:
+        Actor(name=name, gender=gender).insert()
+        return jsonify({
+            'success': True,
+            'actor': name
+        }), 201
+    except:
+        abort(422)
 
 
 @app.route('/login')

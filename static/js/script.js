@@ -14,7 +14,7 @@ document.querySelectorAll(".modal-button").forEach(function(el) {
 const sendData = async (url, data, method) => {
   // Default options are marked with *
   const response = await fetch(url, {
-    method: method, // *GET, POST, PUT, DELETE, etc.
+    method, // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     credentials: "same-origin", // include, *same-origin, omit

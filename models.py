@@ -68,7 +68,8 @@ class Movie(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    def update(self):
+    @staticmethod
+    def update():
         """updates a record in the model
         the record must exist in the model
         EXAMPLE
@@ -115,7 +116,8 @@ class Actor(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    def update(self):
+    @staticmethod
+    def update():
         """updates a record in the model
         the record must exist in the model
         EXAMPLE

@@ -42,7 +42,7 @@ const submitActor = async () => {
         message: `${data.actor} added successfully`,
       });
     } else {
-      throw data.message
+      throw data.message;
     }
   } catch (error) {
     console.error(error);

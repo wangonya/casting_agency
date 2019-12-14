@@ -36,11 +36,7 @@ const submitActor = async () => {
   try {
     const data = await sendData("/actors", formData, "POST");
     if (data.success) {
-      target.classList.remove("is-active");
-      iziToast.success({
-        title: "Success",
-        message: `${data.actor} added successfully`,
-      });
+      location.href = '/actors';
     } else {
       throw data.message;
     }
@@ -60,11 +56,7 @@ const submitMovie = async () => {
   try {
     const data = await sendData("/movies", formData, "POST");
     if (data.success) {
-      target.classList.remove("is-active");
-      iziToast.success({
-        title: "Success",
-        message: `${data.movie} added successfully`,
-      });
+      location.href = '/movies';
     } else {
       throw data.message;
     }

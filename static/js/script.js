@@ -59,7 +59,6 @@ const submitMovie = async () => {
 
   try {
     const data = await sendData("/movies", formData, "POST");
-    console.log("data ===>", data)
     if (data.success) {
       target.classList.remove("is-active");
       iziToast.success({

@@ -79,6 +79,15 @@ class Movie(db.Model):
         """
         db.session.commit()
 
+    def format(self):
+        """returns a formatted response of the data in the model"""
+        return {
+            'id': self.id,
+            'title': self.title,
+            'release_date': self.release_date,
+            'movies': 'all acted movies here'  # TODO: get this from relationship table
+        }
+
 
 class Actor(db.Model):
     """Actor model

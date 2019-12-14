@@ -51,3 +51,27 @@ const submitActor = async () => {
     });
   }
 };
+
+// submit movie
+const submitMovie = async () => {
+  let movieForm = document.getElementById("movieForm");
+  let formData = new FormData(movieForm);
+
+  try {
+    const data = await sendData("/movies", formData, "POST");
+    if (data.success) {
+      target.classList.remove("is-active");
+      iziToast.success({
+        title: "Success",
+        message: `${data.movie} added successfully`,
+      });
+    } else {
+      throw data.message;
+    }
+  } catch (error) {
+    iziToast.error({
+      title: "Error",
+      message: error,
+    });
+  }
+};

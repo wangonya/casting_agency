@@ -11,8 +11,34 @@ app.secret_key = os.getenv('SECRET')
 
 
 @app.route('/movies')
-def movies():
-    return render_template('movies.html')
+def get_all_movies():
+    try:
+        movies = Movie.query.all()
+        movies = [movie.format() for movie in movies]
+        return render_template('movies.html', movies=movies)
+    except:
+        abort(422)
+
+
+@app.route('/movies', methods=['POST'])
+def add_movie():
+    title = request.form.get('title')
+    release_date = request.form.get('release_date')
+    try:
+        data = title and release_date
+        if not data:
+            abort(400)
+    except (TypeError, KeyError):
+        abort(400)
+
+    try:
+        Movie(title=title, release_date=release_date).insert()
+        return jsonify({
+            'success': True,
+            'movie': title
+        }), 201
+    except:
+        abort(422)
 
 
 @app.route('/actors')
@@ -20,10 +46,6 @@ def get_all_actors():
     try:
         actors = Actor.query.all()
         actors = [actor.format() for actor in actors]
-        # return jsonify({
-        #     'success': True,
-        #     'actors': actors
-        # }), 200
         return render_template('actors.html', actors=actors)
     except:
         abort(422)

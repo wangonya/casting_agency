@@ -20,6 +20,27 @@ def get_all_movies():
         abort(422)
 
 
+@app.route('/movies', methods=['POST'])
+def add_movie():
+    title = request.form.get('title')
+    release_date = request.form.get('release_date')
+    try:
+        data = title and release_date
+        if not data:
+            abort(400)
+    except (TypeError, KeyError):
+        abort(400)
+
+    try:
+        Movie(title=title, release_date=release_date).insert()
+        return jsonify({
+            'success': True,
+            'movie': title
+        }), 201
+    except:
+        abort(422)
+
+
 @app.route('/actors')
 def get_all_actors():
     try:

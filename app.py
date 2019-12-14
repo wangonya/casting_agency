@@ -1,5 +1,4 @@
 import os
-import json
 
 from flask import Flask, jsonify, render_template, request, abort
 from auth import AuthError

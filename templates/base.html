@@ -30,7 +30,7 @@
 					<a class="button is-primary modal-button" data-target="#actorModal" aria-haspopup="true">
 						<strong>Add actor</strong>
 					</a>
-					<a class="button is-primary" href="/login">
+					<a class="button is-primary modal-button" data-target="#movieModal" aria-haspopup="true">
 						<strong>Add movie</strong>
 					</a>
 				</div>
@@ -64,6 +64,36 @@
 							<input type="radio" name="gender" value="F">
 							Female
 						</label>
+					</div>
+					<br>
+					<div class="field is-grouped">
+						<div class="control">
+							<button class="button is-primary">
+								<strong>Submit</strong>
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<button class="modal-close is-large" aria-label="close"></button>
+	</div>
+
+	{# add movie modal #}
+	<div class="modal" id="movieModal">
+		<div class="modal-background"></div>
+		<div class="modal-content">
+			<form class="box" onsubmit="event.preventDefault(); submitMovie()" id="movieForm">
+				<div class="field">
+					<label class="label">Title</label>
+					<div class="control">
+						<input class="input" type="text" placeholder="Movie's title" name="title">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Release date</label>
+					<div class="control">
+						<input class="input" type="date" name="release_date">
 					</div>
 					<br>
 					<div class="field is-grouped">

@@ -1,5 +1,29 @@
 {% extends 'base.html' %}
 
 {% block movies %}
-    <p>all actors here!</p>
+	<div class="columns is-multiline">
+		{% for actor in actors %}
+			<div class="column is-one-quarter">
+				<div class="card">
+					<div class="card-content">
+						<div class="media">
+				      <div class="media-left">
+				        <figure class="image is-48x48">
+				          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+				        </figure>
+				      </div>
+				      <div class="media-content">
+				        <p class="title is-4">{{ actor.name }}</p>
+				        <p class="subtitle is-6"><small>Gender: {{ actor.gender }}</small></p>
+				      </div>
+						</div>
+					</div>
+					<footer class="card-footer">
+				    <a href="#" class="card-footer-item">Edit</a>
+				    <a href="#" class="card-footer-item">Delete</a>
+				  </footer>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}

@@ -16,8 +16,17 @@ def movies():
 
 
 @app.route('/actors')
-def actors():
-    return render_template('actors.html')
+def get_all_actors():
+    try:
+        actors = Actor.query.all()
+        actors = [actor.format() for actor in actors]
+        # return jsonify({
+        #     'success': True,
+        #     'actors': actors
+        # }), 200
+        return render_template('actors.html', actors=actors)
+    except:
+        abort(422)
 
 
 @app.route('/actors', methods=['POST'])

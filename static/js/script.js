@@ -102,3 +102,22 @@ const editMovie = async () => {
     });
   }
 };
+
+// edit actor
+const editActor = async () => {
+  let editActorForm = document.getElementById("editActorForm");
+  let formData = new FormData(editActorForm);
+  try {
+    const data = await sendData(`/actors/${formData.get('id')}`, formData, "PATCH");
+    if (data.success) {
+      location.href = '/actors';
+    } else {
+      throw data.message;
+    }
+  } catch (error) {
+    iziToast.error({
+      title: "Error",
+      message: error,
+    });
+  }
+};

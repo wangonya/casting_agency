@@ -42,7 +42,7 @@ def add_movie():
 
 
 @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-def edit_movies(movie_id):
+def edit_movie(movie_id):
     title = request.form.get('title')
     release_date = request.form.get('release_date')
 
@@ -102,6 +102,39 @@ def add_actor():
             'actor': name
         }), 201
     except:
+        abort(422)
+
+
+@app.route('/actors/<int:actor_id>', methods=['PATCH'])
+def edit_actor(actor_id):
+    name = request.form.get('name')
+    gender = request.form.get('gender')
+
+    # make sure some data was passed
+    try:
+        data = name or gender
+        if not data:
+            abort(400)
+    except (TypeError, KeyError):
+        abort(400)
+
+    # make sure actor exists
+    actor = Actor.query.filter_by(id=actor_id).first()
+    if not actor:
+        abort(404)
+
+    # update
+    try:
+        if name:
+            actor.name = name
+        if gender:
+            actor.gender = gender
+        actor.update()
+        return jsonify({
+            'success': True,
+            'actor': actor.format()
+        }), 200
+    except Exception:
         abort(422)
 
 

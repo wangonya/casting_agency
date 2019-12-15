@@ -138,3 +138,20 @@ const editActor = async () => {
     });
   }
 };
+
+// delete actor
+const deleteActor = async (actorId) => {
+  try {
+    const data = await sendData(`/actors/${actorId}`, '', "DELETE");
+    if (data.success) {
+      location.href = '/actors';
+    } else {
+      throw data.message;
+    }
+  } catch (error) {
+    iziToast.error({
+      title: "Error",
+      message: error,
+    });
+  }
+};

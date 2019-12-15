@@ -154,6 +154,22 @@ def edit_actor(actor_id):
         abort(422)
 
 
+@app.route('/actors/<int:actor_id>', methods=['DELETE'])
+def delete_actor(actor_id):
+    actor = Actor.query.filter_by(id=actor_id).first()
+    if not actor:
+        abort(404)
+
+    try:
+        actor.delete()
+        return jsonify({
+            'success': True,
+            'delete': actor_id
+        }), 200
+    except Exception:
+        abort(422)
+
+
 @app.route('/login')
 def login():
     return render_template('login.html')

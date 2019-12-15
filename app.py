@@ -41,6 +41,39 @@ def add_movie():
         abort(422)
 
 
+@app.route('/movies/<int:movie_id>', methods=['PATCH'])
+def edit_movies(movie_id):
+    title = request.form.get('title')
+    release_date = request.form.get('release_date')
+
+    # make sure some data was passed
+    try:
+        data = title or release_date
+        if not data:
+            abort(400)
+    except (TypeError, KeyError):
+        abort(400)
+
+    # make sure movie exists
+    movie = Movie.query.filter_by(id=movie_id).first()
+    if not movie:
+        abort(404)
+
+    # update
+    try:
+        if title:
+            movie.title = title
+        if release_date:
+            movie.release_date = release_date
+        movie.update()
+        return jsonify({
+            'success': True,
+            'movie': movie.format()
+        }), 200
+    except Exception:
+        abort(422)
+
+
 @app.route('/actors')
 def get_all_actors():
     try:

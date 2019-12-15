@@ -1,6 +1,44 @@
 {% extends 'base.html' %}
 
 {% block actors %}
+	
+	{# edit actor modal #}
+	<div class="modal" id="editActorModal">
+		<div class="modal-background"></div>
+		<div class="modal-content">
+			<form class="box" onsubmit="event.preventDefault(); editActor()" id="editActorForm">
+				<input type="hidden" name="id">
+				<div class="field">
+					<label class="label">Name</label>
+					<div class="control">
+						<input class="input" type="text" placeholder="Actor's name" name="name">
+					</div>
+				</div>
+				<div class="field">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="gender" value="M">
+							Male
+						</label>
+						<label class="radio">
+							<input type="radio" name="gender" value="F">
+							Female
+						</label>
+					</div>
+					<br>
+					<div class="field is-grouped">
+						<div class="control">
+							<button class="button is-primary">
+								<strong>Submit</strong>
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<button class="modal-close is-large" aria-label="close"></button>
+	</div>
+	
 	<div class="columns is-multiline">
 		{% for actor in actors %}
 			<div class="column is-one-quarter">
@@ -19,7 +57,8 @@
 						</div>
 					</div>
 					<footer class="card-footer">
-				    <a href="#" class="card-footer-item">Edit</a>
+				    <a class="card-footer-item modal-button" data-target="#editActorModal"
+						   aria-haspopup="true" onclick="setFormValues('editActorForm', {{actor}})">Edit</a>
 				    <a href="#" class="card-footer-item">Delete</a>
 				  </footer>
 				</div>

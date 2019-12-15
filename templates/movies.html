@@ -1,27 +1,60 @@
 {% extends 'base.html' %}
 
 {% block movies %}
+
+	{# edit movie modal #}
+	<div class="modal" id="editMovieModal">
+		<div class="modal-background"></div>
+		<div class="modal-content">
+			<form class="box" onsubmit="event.preventDefault(); editMovie()" id="editMovieForm">
+				<input type="hidden" name="id">
+				<div class="field">
+					<label class="label">Title</label>
+					<div class="control">
+						<input class="input" type="text" placeholder="Movie's title" name="title">
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Release date</label>
+					<div class="control">
+						<input class="input" type="date" name="release_date">
+					</div>
+					<br>
+					<div class="field is-grouped">
+						<div class="control">
+							<button class="button is-primary">
+								<strong>Submit</strong>
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<button class="modal-close is-large" aria-label="close"></button>
+	</div>
+
 	<div class="columns is-multiline">
 		{% for movie in movies %}
 			<div class="column is-one-quarter">
 				<div class="card">
 					<div class="card-image">
-				    <figure class="image is-4by3">
-				      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-				    </figure>
-				  </div>
+						<figure class="image is-4by3">
+							<img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+						</figure>
+					</div>
 					<div class="card-content">
 						<div class="media">
-				      <div class="media-content">
-				        <p class="title is-4">{{ movie.title }}</p>
-				        <p class="subtitle is-6"><small>Released: {{ movie.release_date }}</small></p>
-				      </div>
+							<div class="media-content">
+								<p class="title is-4">{{ movie.title }}</p>
+								<p class="subtitle is-6"><small>Released: {{ movie.release_date }}</small></p>
+							</div>
 						</div>
 					</div>
 					<footer class="card-footer">
-				    <a href="#" class="card-footer-item">Edit</a>
-				    <a href="#" class="card-footer-item">Delete</a>
-				  </footer>
+						<a class="card-footer-item modal-button" data-target="#editMovieModal"
+						   aria-haspopup="true" onclick="setFormValues('editMovieForm', {{movie}})">Edit</a>
+						<a href="#" class="card-footer-item">Delete</a>
+					</footer>
 				</div>
 			</div>
 		{% endfor %}

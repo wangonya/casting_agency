@@ -28,10 +28,14 @@ const sendData = async (url, data, method) => {
   return await response.json(); // parses JSON response into native JavaScript objects
 };
 
+// forms
+const actorForm = document.getElementById("actorForm");
+const movieForm = document.getElementById("movieForm");
+let formData;
+
 // submit actor
 const submitActor = async () => {
-  let actorForm = document.getElementById("actorForm");
-  let formData = new FormData(actorForm);
+  formData = new FormData(actorForm);
 
   try {
     const data = await sendData("/actors", formData, "POST");
@@ -50,11 +54,42 @@ const submitActor = async () => {
 
 // submit movie
 const submitMovie = async () => {
-  let movieForm = document.getElementById("movieForm");
-  let formData = new FormData(movieForm);
+  formData = new FormData(movieForm);
 
   try {
     const data = await sendData("/movies", formData, "POST");
+    if (data.success) {
+      location.href = '/movies';
+    } else {
+      throw data.message;
+    }
+  } catch (error) {
+    iziToast.error({
+      title: "Error",
+      message: error,
+    });
+  }
+};
+
+// set form values for easier editing
+const setFormValues = (formName = '', data = {}) => {
+  if (formName === 'editMovieForm') {
+    document.forms['editMovieForm']['id'].value = data.id;
+    document.forms['editMovieForm']['title'].value = data.title;
+    document.forms['editMovieForm']['release_date'].value = data.release_date;
+  } else if (formName === 'editActorForm') {
+    document.forms['editActorForm']['id'].value = data.id;
+    document.forms['editActorForm']['name'].value = data.name;
+    document.forms['editActorForm']['gender'].value = data.gender;
+  }
+};
+
+// edit movie
+const editMovie = async () => {
+  let editMovieForm = document.getElementById("editMovieForm");
+  let formData = new FormData(editMovieForm);
+  try {
+    const data = await sendData(`/movies/${formData.get('id')}`, formData, "PATCH");
     if (data.success) {
       location.href = '/movies';
     } else {

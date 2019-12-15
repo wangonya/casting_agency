@@ -103,6 +103,23 @@ const editMovie = async () => {
   }
 };
 
+// delete movie
+const deleteMovie = async (movieId) => {
+  try {
+    const data = await sendData(`/movies/${movieId}`, '', "DELETE");
+    if (data.success) {
+      location.href = '/movies';
+    } else {
+      throw data.message;
+    }
+  } catch (error) {
+    iziToast.error({
+      title: "Error",
+      message: error,
+    });
+  }
+};
+
 // edit actor
 const editActor = async () => {
   let editActorForm = document.getElementById("editActorForm");

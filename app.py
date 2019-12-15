@@ -74,6 +74,22 @@ def edit_movie(movie_id):
         abort(422)
 
 
+@app.route('/movies/<int:movie_id>', methods=['DELETE'])
+def delete_movie(movie_id):
+    movie = Movie.query.filter_by(id=movie_id).first()
+    if not movie:
+        abort(404)
+
+    try:
+        movie.delete()
+        return jsonify({
+            'success': True,
+            'delete': movie_id
+        }), 200
+    except Exception:
+        abort(422)
+
+
 @app.route('/actors')
 def get_all_actors():
     try:

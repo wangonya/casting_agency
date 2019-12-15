@@ -53,7 +53,7 @@
 					<footer class="card-footer">
 						<a class="card-footer-item modal-button" data-target="#editMovieModal"
 						   aria-haspopup="true" onclick="setFormValues('editMovieForm', {{movie}})">Edit</a>
-						<a href="#" class="card-footer-item">Delete</a>
+						<a class="card-footer-item" onclick="deleteMovie({{ movie.id }})">Delete</a>
 					</footer>
 				</div>
 			</div>

@@ -74,6 +74,22 @@ def edit_movie(movie_id):
         abort(422)
 
 
+@app.route('/movies/<int:movie_id>', methods=['DELETE'])
+def delete_movie(movie_id):
+    movie = Movie.query.filter_by(id=movie_id).first()
+    if not movie:
+        abort(404)
+
+    try:
+        movie.delete()
+        return jsonify({
+            'success': True,
+            'delete': movie_id
+        }), 200
+    except Exception:
+        abort(422)
+
+
 @app.route('/actors')
 def get_all_actors():
     try:
@@ -133,6 +149,22 @@ def edit_actor(actor_id):
         return jsonify({
             'success': True,
             'actor': actor.format()
+        }), 200
+    except Exception:
+        abort(422)
+
+
+@app.route('/actors/<int:actor_id>', methods=['DELETE'])
+def delete_actor(actor_id):
+    actor = Actor.query.filter_by(id=actor_id).first()
+    if not actor:
+        abort(404)
+
+    try:
+        actor.delete()
+        return jsonify({
+            'success': True,
+            'delete': actor_id
         }), 200
     except Exception:
         abort(422)

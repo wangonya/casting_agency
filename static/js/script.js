@@ -103,12 +103,46 @@ const editMovie = async () => {
   }
 };
 
+// delete movie
+const deleteMovie = async (movieId) => {
+  try {
+    const data = await sendData(`/movies/${movieId}`, '', "DELETE");
+    if (data.success) {
+      location.href = '/movies';
+    } else {
+      throw data.message;
+    }
+  } catch (error) {
+    iziToast.error({
+      title: "Error",
+      message: error,
+    });
+  }
+};
+
 // edit actor
 const editActor = async () => {
   let editActorForm = document.getElementById("editActorForm");
   let formData = new FormData(editActorForm);
   try {
     const data = await sendData(`/actors/${formData.get('id')}`, formData, "PATCH");
+    if (data.success) {
+      location.href = '/actors';
+    } else {
+      throw data.message;
+    }
+  } catch (error) {
+    iziToast.error({
+      title: "Error",
+      message: error,
+    });
+  }
+};
+
+// delete actor
+const deleteActor = async (actorId) => {
+  try {
+    const data = await sendData(`/actors/${actorId}`, '', "DELETE");
     if (data.success) {
       location.href = '/actors';
     } else {

@@ -1,3 +1,21 @@
+// auth
+let tokenUrl = window.location.href.match(/\#(?:access_token)\=([\S\s]*?)\&/);
+if (tokenUrl) {
+  let token = tokenUrl[1];
+  localStorage.setItem('token', token);
+  // get permissions from token
+  try {
+    let permissions;
+    permissions = JSON.parse(atob(token.split('.')[1])).permissions;
+    localStorage.setItem('permissions', permissions)
+  } catch (e) {
+    iziToast.error({
+      title: "Error",
+      message: e,
+    });
+  }
+}
+
 // show and hide modal
 let target;
 document.querySelectorAll(".modal-button").forEach(function(el) {

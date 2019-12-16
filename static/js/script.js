@@ -3,6 +3,7 @@ let tokenUrl = window.location.href.match(/\#(?:access_token)\=([\S\s]*?)\&/);
 if (tokenUrl) {
   let token = tokenUrl[1];
   localStorage.setItem('token', token);
+
   // get permissions from token
   try {
     let permissions;
@@ -14,6 +15,21 @@ if (tokenUrl) {
       message: e,
     });
   }
+}
+
+// hide log in button if logged in
+if (localStorage.getItem('token')) {
+  document.getElementById('loginButton').remove();
+}
+
+// hide add actor button if no permissions
+if (!localStorage.getItem('permissions').includes('write:actors')) {
+  document.getElementById('addActorButton').remove();
+}
+
+// hide add movie button if no permissions
+if (!localStorage.getItem('permissions').includes('write:movies')) {
+  document.getElementById('addMovieButton').remove();
 }
 
 // show and hide modal

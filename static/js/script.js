@@ -58,6 +58,7 @@ if (localStorage.getItem('token') && localStorage.getItem('permissions')) {
   document.querySelectorAll('.card-footer').forEach(e => e.remove());
   document.getElementById('addActorButton').remove();
   document.getElementById('addMovieButton').remove();
+  document.getElementById('logoutButton').remove();
 }
 
 // show and hide modal
@@ -80,8 +81,9 @@ const sendData = async (url, data, method) => {
     mode: "cors", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     credentials: "same-origin", // include, *same-origin, omit
-    headers: {
-    },
+    headers: new Headers({
+      'Authorization': 'Basic '+btoa('username:password'),
+    }),
     redirect: "follow", // manual, *follow, error
     referrer: "no-referrer", // no-referrer, *client
     // body: JSON.stringify(data) // body data type must match "Content-Type" header
@@ -216,4 +218,10 @@ const deleteActor = async (actorId) => {
       message: error,
     });
   }
+};
+
+// logout
+const logOut = () => {
+  localStorage.clear()
+  window.location.href = 'https://dev-wsb8jitr.auth0.com/v2/logout'
 };

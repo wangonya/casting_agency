@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, jsonify, render_template, request, abort
-from auth import AuthError
+from auth import AuthError, requires_auth
 from models import setup_db, db_drop_and_create_all, Actor, Movie
 
 app = Flask(__name__)
@@ -21,6 +21,7 @@ def get_all_movies():
 
 
 @app.route('/movies', methods=['POST'])
+@requires_auth('write:movies')
 def add_movie():
     title = request.form.get('title')
     release_date = request.form.get('release_date')
@@ -42,6 +43,7 @@ def add_movie():
 
 
 @app.route('/movies/<int:movie_id>', methods=['PATCH'])
+@requires_auth('update:movies')
 def edit_movie(movie_id):
     title = request.form.get('title')
     release_date = request.form.get('release_date')
@@ -75,6 +77,7 @@ def edit_movie(movie_id):
 
 
 @app.route('/movies/<int:movie_id>', methods=['DELETE'])
+@requires_auth('delete:movies')
 def delete_movie(movie_id):
     movie = Movie.query.filter_by(id=movie_id).first()
     if not movie:
@@ -101,6 +104,7 @@ def get_all_actors():
 
 
 @app.route('/actors', methods=['POST'])
+@requires_auth('write:actors')
 def add_actor():
     name = request.form.get('name')
     gender = request.form.get('gender')
@@ -122,6 +126,7 @@ def add_actor():
 
 
 @app.route('/actors/<int:actor_id>', methods=['PATCH'])
+@requires_auth('update:actors')
 def edit_actor(actor_id):
     name = request.form.get('name')
     gender = request.form.get('gender')
@@ -155,6 +160,7 @@ def edit_actor(actor_id):
 
 
 @app.route('/actors/<int:actor_id>', methods=['DELETE'])
+@requires_auth('delete:actors')
 def delete_actor(actor_id):
     actor = Actor.query.filter_by(id=actor_id).first()
     if not actor:
@@ -173,6 +179,7 @@ def delete_actor(actor_id):
 @app.route('/login')
 def login():
     return render_template('login.html')
+
 
 # Error Handling
 

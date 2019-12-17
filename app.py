@@ -22,7 +22,7 @@ def get_all_movies():
 
 @app.route('/movies', methods=['POST'])
 @requires_auth('write:movies')
-def add_movie():
+def add_movie(payload):
     title = request.form.get('title')
     release_date = request.form.get('release_date')
     try:
@@ -44,7 +44,7 @@ def add_movie():
 
 @app.route('/movies/<int:movie_id>', methods=['PATCH'])
 @requires_auth('update:movies')
-def edit_movie(movie_id):
+def edit_movie(payload, movie_id):
     title = request.form.get('title')
     release_date = request.form.get('release_date')
 
@@ -78,7 +78,7 @@ def edit_movie(movie_id):
 
 @app.route('/movies/<int:movie_id>', methods=['DELETE'])
 @requires_auth('delete:movies')
-def delete_movie(movie_id):
+def delete_movie(payload, movie_id):
     movie = Movie.query.filter_by(id=movie_id).first()
     if not movie:
         abort(404)
@@ -105,7 +105,7 @@ def get_all_actors():
 
 @app.route('/actors', methods=['POST'])
 @requires_auth('write:actors')
-def add_actor():
+def add_actor(payload):
     name = request.form.get('name')
     gender = request.form.get('gender')
     try:
@@ -127,7 +127,7 @@ def add_actor():
 
 @app.route('/actors/<int:actor_id>', methods=['PATCH'])
 @requires_auth('update:actors')
-def edit_actor(actor_id):
+def edit_actor(payload, actor_id):
     name = request.form.get('name')
     gender = request.form.get('gender')
 
@@ -161,7 +161,7 @@ def edit_actor(actor_id):
 
 @app.route('/actors/<int:actor_id>', methods=['DELETE'])
 @requires_auth('delete:actors')
-def delete_actor(actor_id):
+def delete_actor(payload, actor_id):
     actor = Actor.query.filter_by(id=actor_id).first()
     if not actor:
         abort(404)

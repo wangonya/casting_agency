@@ -82,7 +82,7 @@ const sendData = async (url, data, method) => {
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     credentials: "same-origin", // include, *same-origin, omit
     headers: new Headers({
-      'Authorization': 'Basic '+btoa('username:password'),
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }),
     redirect: "follow", // manual, *follow, error
     referrer: "no-referrer", // no-referrer, *client

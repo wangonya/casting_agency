@@ -22,6 +22,10 @@ if (tokenUrl) {
 }
 
 if (localStorage.getItem('token') && localStorage.getItem('permissions')) {
+  if (window.location.pathname === '/') {
+    window.location.replace('/movies')
+  }
+
   // hide log in button if logged in
   document.getElementById('loginButton').remove();
 
@@ -59,6 +63,11 @@ if (localStorage.getItem('token') && localStorage.getItem('permissions')) {
   document.getElementById('addActorButton').remove();
   document.getElementById('addMovieButton').remove();
   document.getElementById('logoutButton').remove();
+  document.getElementById('movieLink').remove();
+  document.getElementById('actorLink').remove();
+  if (window.location.pathname !== '/') {
+    window.location.replace('/')
+  }
 }
 
 // show and hide modal

@@ -10,8 +10,14 @@ app.secret_key = os.getenv('SECRET')
 # db_drop_and_create_all()
 
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
 @app.route('/movies')
-def get_all_movies():
+@requires_auth('read:movies')
+def get_all_movies(payload):
     try:
         movies = Movie.query.all()
         movies = [movie.format() for movie in movies]
@@ -94,7 +100,8 @@ def delete_movie(payload, movie_id):
 
 
 @app.route('/actors')
-def get_all_actors():
+@requires_auth('read:actors')
+def get_all_actors(payload):
     try:
         actors = Actor.query.all()
         actors = [actor.format() for actor in actors]

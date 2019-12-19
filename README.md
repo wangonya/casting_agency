@@ -13,6 +13,33 @@ This is my capstone project for the Udacity FSWD nanodegree.
 All dependencies are listed in the `requirements.txt` file. 
 They can be installed by running `pip3 install -r requirements.txt`.
 
+## Authentication
+
+The API has three registered users:
+
+1. Assistant
+
+```
+email: assistant@casting.com
+password: assistant@casting.com1
+```
+
+2. Director
+
+```
+email: director@casting.com
+password: director@casting.com1
+```
+
+3. Producer
+
+```
+email: producer@casting.com
+password: producer@casting.com1
+```
+
+The Auth0 domain and api audience can be found in `setup.sh`.
+
 ## Endpoints
 
 ### `GET /movies`

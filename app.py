@@ -21,7 +21,10 @@ def get_all_movies(payload):
     try:
         movies = Movie.query.all()
         movies = [movie.format() for movie in movies]
-        return render_template('movies.html', movies=movies)
+        return jsonify({
+            'success': True,
+            'movies': movies
+        })
     except:
         abort(422)
 
@@ -105,7 +108,10 @@ def get_all_actors(payload):
     try:
         actors = Actor.query.all()
         actors = [actor.format() for actor in actors]
-        return render_template('actors.html', actors=actors)
+        return jsonify({
+            'success': True,
+            'actors': actors
+        })
     except:
         abort(422)
 

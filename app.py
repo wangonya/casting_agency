@@ -32,8 +32,8 @@ def get_all_movies(payload):
 @app.route('/movies', methods=['POST'])
 @requires_auth('write:movies')
 def add_movie(payload):
-    title = request.form.get('title')
-    release_date = request.form.get('release_date')
+    title = request.get_json().get('title')
+    release_date = request.get_json().get('release_date')
     try:
         data = title and release_date
         if not data:
@@ -54,8 +54,8 @@ def add_movie(payload):
 @app.route('/movies/<int:movie_id>', methods=['PATCH'])
 @requires_auth('update:movies')
 def edit_movie(payload, movie_id):
-    title = request.form.get('title')
-    release_date = request.form.get('release_date')
+    title = request.get_json().get('title')
+    release_date = request.get_json().get('release_date')
 
     # make sure some data was passed
     try:
@@ -119,8 +119,8 @@ def get_all_actors(payload):
 @app.route('/actors', methods=['POST'])
 @requires_auth('write:actors')
 def add_actor(payload):
-    name = request.form.get('name')
-    gender = request.form.get('gender')
+    name = request.get_json().get('name')
+    gender = request.get_json().get('gender')
     try:
         data = name and gender
         if not data:
@@ -141,8 +141,8 @@ def add_actor(payload):
 @app.route('/actors/<int:actor_id>', methods=['PATCH'])
 @requires_auth('update:actors')
 def edit_actor(payload, actor_id):
-    name = request.form.get('name')
-    gender = request.form.get('gender')
+    name = request.get_json().get('name')
+    gender = request.get_json().get('gender')
 
     # make sure some data was passed
     try:

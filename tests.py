@@ -41,6 +41,11 @@ class MainTestCase(unittest.TestCase):
             '/movies', headers=set_auth_header('assistant'))
         self.assertEqual(res.status_code, 200)
 
+    def test_get_movies_unauthorized(self):
+        res = self.app.get(
+            '/movies', headers=set_auth_header(''))
+        self.assertEqual(res.status_code, 401)
+
     def test_add_movie(self):
         data = {
             "title": "title",
@@ -50,6 +55,22 @@ class MainTestCase(unittest.TestCase):
             '/movies', data=data, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.get_json()['success'], True)
+
+    def test_add_movie_fail(self):
+        res = self.app.post(
+            '/movies', data={}, headers=set_auth_header('producer'))
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.get_json()['success'], False)
+
+    def test_add_movie_unauthorized(self):
+        data = {
+            "title": "title",
+            "release_date": "release_date"
+        }
+        res = self.app.post(
+            '/movies', data=data, headers=set_auth_header('assistant'))
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.get_json()['message'], 'unauthorized')
 
     def test_edit_movie(self):
         data = {
@@ -66,6 +87,35 @@ class MainTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
 
+    def test_edit_movie_unauthorized(self):
+        data = {
+            "title": "title",
+            "release_date": "release_date"
+        }
+        self.app.post('/movies', data=data,
+                      headers=set_auth_header('producer'))
+
+        movie_id = Movie.query.first().id
+        res = self.app.patch(
+            f'/movies/{movie_id}', data=data,
+            headers=set_auth_header('assistant'))
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.get_json()['message'], 'unauthorized')
+
+    def test_edit_movie_fail(self):
+        data = {
+            "title": "title",
+            "release_date": "release_date"
+        }
+        self.app.post('/movies', data=data,
+                      headers=set_auth_header('producer'))
+
+        movie_id = Movie.query.first().id
+        res = self.app.patch(
+            f'/movies/{movie_id}', data={},
+            headers=set_auth_header('producer'))
+        self.assertEqual(res.status_code, 400)
+
     def test_delete_movie(self):
         data = {
             "title": "title",
@@ -81,12 +131,32 @@ class MainTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
 
+    def test_delete_movie_unauthorized(self):
+        data = {
+            "title": "title",
+            "release_date": "release_date"
+        }
+        self.app.post(
+            '/movies', data=data, headers=set_auth_header('producer'))
+
+        movie_id = Movie.query.first().id
+        res = self.app.delete(
+            f'/movies/{movie_id}', data=data,
+            headers=set_auth_header('director'))
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.get_json()['message'], 'unauthorized')
+
     # actors endpoint tests
 
     def test_get_actors(self):
         res = self.app.get(
             '/actors', headers=set_auth_header('assistant'))
         self.assertEqual(res.status_code, 200)
+
+    def test_get_actors_unauthorized(self):
+        res = self.app.get(
+            '/actors', headers=set_auth_header(''))
+        self.assertEqual(res.status_code, 401)
 
     def test_add_actor(self):
         data = {
@@ -97,6 +167,22 @@ class MainTestCase(unittest.TestCase):
             '/actors', data=data, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.get_json()['success'], True)
+
+    def test_add_actor_fail(self):
+        res = self.app.post(
+            '/actors', data={}, headers=set_auth_header('producer'))
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.get_json()['success'], False)
+
+    def test_add_actor_unauthorized(self):
+        data = {
+            "name": "name",
+            "gender": "M"
+        }
+        res = self.app.post(
+            '/actors', data=data, headers=set_auth_header('assistant'))
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.get_json()['message'], 'unauthorized')
 
     def test_edit_actor(self):
         data = {
@@ -113,6 +199,36 @@ class MainTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
 
+    def test_edit_actor_unauthorized(self):
+        data = {
+            "name": "name",
+            "gender": "M"
+        }
+        self.app.post('/actors', data=data,
+                      headers=set_auth_header('producer'))
+
+        actor_id = Actor.query.first().id
+        res = self.app.patch(
+            f'/actors/{actor_id}', data=data,
+            headers=set_auth_header('assistant'))
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.get_json()['message'], 'unauthorized')
+
+    def test_edit_actor_fail(self):
+        data = {
+            "name": "name",
+            "gender": "M"
+        }
+        self.app.post('/actors', data=data,
+                      headers=set_auth_header('producer'))
+
+        actor_id = Actor.query.first().id
+        res = self.app.patch(
+            f'/actors/{actor_id}', data={},
+            headers=set_auth_header('assistant'))
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.get_json()['message'], 'unauthorized')
+
     def test_delete_actor(self):
         data = {
             "name": "name",
@@ -127,6 +243,20 @@ class MainTestCase(unittest.TestCase):
             headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
+
+    def test_delete_actor_unauthorized(self):
+        data = {
+            "name": "name",
+            "gender": "M"
+        }
+        self.app.post('/actors', data=data,
+                      headers=set_auth_header('producer'))
+
+        actor_id = Actor.query.first().id
+        res = self.app.delete(
+            f'/actors/{actor_id}', data=data,
+            headers=set_auth_header('assistant'))
+        self.assertEqual(res.status_code, 403)
 
 
 if __name__ == '__main__':

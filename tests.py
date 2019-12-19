@@ -37,7 +37,8 @@ class MainTestCase(unittest.TestCase):
     # movies endpoint tests
 
     def test_get_movies(self):
-        res = self.app.get('/movies', headers=set_auth_header('assistant'))
+        res = self.app.get(
+            '/movies', headers=set_auth_header('assistant'))
         self.assertEqual(res.status_code, 200)
 
     def test_add_movie(self):
@@ -45,7 +46,8 @@ class MainTestCase(unittest.TestCase):
             "title": "title",
             "release_date": "release_date"
         }
-        res = self.app.post('/movies', data=data, headers=set_auth_header('producer'))
+        res = self.app.post(
+            '/movies', data=data, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.get_json()['success'], True)
 
@@ -57,7 +59,8 @@ class MainTestCase(unittest.TestCase):
         self.app.post('/movies', data=data, headers=set_auth_header('producer'))
 
         movie_id = Movie.query.first().id
-        res = self.app.patch(f'/movies/{movie_id}', data=data, headers=set_auth_header('producer'))
+        res = self.app.patch(
+            f'/movies/{movie_id}', data=data, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
 
@@ -66,17 +69,20 @@ class MainTestCase(unittest.TestCase):
             "title": "title",
             "release_date": "release_date"
         }
-        self.app.post('/movies', data=data, headers=set_auth_header('producer'))
+        self.app.post(
+            '/movies', data=data, headers=set_auth_header('producer'))
 
         movie_id = Movie.query.first().id
-        res = self.app.delete(f'/movies/{movie_id}', data=data, headers=set_auth_header('producer'))
+        res = self.app.delete(
+            f'/movies/{movie_id}', data=data, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
 
     # actors endpoint tests
 
     def test_get_actors(self):
-        res = self.app.get('/actors', headers=set_auth_header('assistant'))
+        res = self.app.get(
+            '/actors', headers=set_auth_header('assistant'))
         self.assertEqual(res.status_code, 200)
 
     def test_add_actor(self):
@@ -84,7 +90,8 @@ class MainTestCase(unittest.TestCase):
             "name": "name",
             "gender": "M"
         }
-        res = self.app.post('/actors', data=data, headers=set_auth_header('producer'))
+        res = self.app.post(
+            '/actors', data=data, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.get_json()['success'], True)
 
@@ -96,7 +103,8 @@ class MainTestCase(unittest.TestCase):
         self.app.post('/actors', data=data, headers=set_auth_header('producer'))
 
         actor_id = Actor.query.first().id
-        res = self.app.patch(f'/actors/{actor_id}', data=data, headers=set_auth_header('producer'))
+        res = self.app.patch(
+            f'/actors/{actor_id}', data=data, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
 
@@ -108,7 +116,8 @@ class MainTestCase(unittest.TestCase):
         self.app.post('/actors', data=data, headers=set_auth_header('producer'))
 
         actor_id = Actor.query.first().id
-        res = self.app.delete(f'/actors/{actor_id}', data=data, headers=set_auth_header('producer'))
+        res = self.app.delete(
+            f'/actors/{actor_id}', data=data, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
 

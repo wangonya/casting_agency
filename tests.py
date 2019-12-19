@@ -52,13 +52,13 @@ class MainTestCase(unittest.TestCase):
             "release_date": "release_date"
         }
         res = self.app.post(
-            '/movies', data=data, headers=set_auth_header('producer'))
+            '/movies', json=data, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.get_json()['success'], True)
 
     def test_add_movie_fail(self):
         res = self.app.post(
-            '/movies', data={}, headers=set_auth_header('producer'))
+            '/movies', json={}, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 400)
         self.assertEqual(res.get_json()['success'], False)
 
@@ -68,7 +68,7 @@ class MainTestCase(unittest.TestCase):
             "release_date": "release_date"
         }
         res = self.app.post(
-            '/movies', data=data, headers=set_auth_header('assistant'))
+            '/movies', json=data, headers=set_auth_header('assistant'))
         self.assertEqual(res.status_code, 403)
         self.assertEqual(res.get_json()['message'], 'unauthorized')
 
@@ -77,12 +77,12 @@ class MainTestCase(unittest.TestCase):
             "title": "title",
             "release_date": "release_date"
         }
-        self.app.post('/movies', data=data,
+        self.app.post('/movies', json=data,
                       headers=set_auth_header('producer'))
 
         movie_id = Movie.query.first().id
         res = self.app.patch(
-            f'/movies/{movie_id}', data=data,
+            f'/movies/{movie_id}', json=data,
             headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
@@ -92,12 +92,12 @@ class MainTestCase(unittest.TestCase):
             "title": "title",
             "release_date": "release_date"
         }
-        self.app.post('/movies', data=data,
+        self.app.post('/movies', json=data,
                       headers=set_auth_header('producer'))
 
         movie_id = Movie.query.first().id
         res = self.app.patch(
-            f'/movies/{movie_id}', data=data,
+            f'/movies/{movie_id}', json=data,
             headers=set_auth_header('assistant'))
         self.assertEqual(res.status_code, 403)
         self.assertEqual(res.get_json()['message'], 'unauthorized')
@@ -107,12 +107,17 @@ class MainTestCase(unittest.TestCase):
             "title": "title",
             "release_date": "release_date"
         }
-        self.app.post('/movies', data=data,
+        self.app.post('/movies', json=data,
                       headers=set_auth_header('producer'))
 
         movie_id = Movie.query.first().id
+
+        data = {
+            "title": '',
+            "release_date": ''
+        }
         res = self.app.patch(
-            f'/movies/{movie_id}', data={},
+            f'/movies/{movie_id}', json=data,
             headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 400)
 
@@ -122,11 +127,11 @@ class MainTestCase(unittest.TestCase):
             "release_date": "release_date"
         }
         self.app.post(
-            '/movies', data=data, headers=set_auth_header('producer'))
+            '/movies', json=data, headers=set_auth_header('producer'))
 
         movie_id = Movie.query.first().id
         res = self.app.delete(
-            f'/movies/{movie_id}', data=data,
+            f'/movies/{movie_id}', json=data,
             headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
@@ -137,11 +142,11 @@ class MainTestCase(unittest.TestCase):
             "release_date": "release_date"
         }
         self.app.post(
-            '/movies', data=data, headers=set_auth_header('producer'))
+            '/movies', json=data, headers=set_auth_header('producer'))
 
         movie_id = Movie.query.first().id
         res = self.app.delete(
-            f'/movies/{movie_id}', data=data,
+            f'/movies/{movie_id}', json=data,
             headers=set_auth_header('director'))
         self.assertEqual(res.status_code, 403)
         self.assertEqual(res.get_json()['message'], 'unauthorized')
@@ -164,13 +169,13 @@ class MainTestCase(unittest.TestCase):
             "gender": "M"
         }
         res = self.app.post(
-            '/actors', data=data, headers=set_auth_header('producer'))
+            '/actors', json=data, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.get_json()['success'], True)
 
     def test_add_actor_fail(self):
         res = self.app.post(
-            '/actors', data={}, headers=set_auth_header('producer'))
+            '/actors', json={}, headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 400)
         self.assertEqual(res.get_json()['success'], False)
 
@@ -180,7 +185,7 @@ class MainTestCase(unittest.TestCase):
             "gender": "M"
         }
         res = self.app.post(
-            '/actors', data=data, headers=set_auth_header('assistant'))
+            '/actors', json=data, headers=set_auth_header('assistant'))
         self.assertEqual(res.status_code, 403)
         self.assertEqual(res.get_json()['message'], 'unauthorized')
 
@@ -189,12 +194,12 @@ class MainTestCase(unittest.TestCase):
             "name": "name",
             "gender": "M"
         }
-        self.app.post('/actors', data=data,
+        self.app.post('/actors', json=data,
                       headers=set_auth_header('producer'))
 
         actor_id = Actor.query.first().id
         res = self.app.patch(
-            f'/actors/{actor_id}', data=data,
+            f'/actors/{actor_id}', json=data,
             headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
@@ -204,12 +209,12 @@ class MainTestCase(unittest.TestCase):
             "name": "name",
             "gender": "M"
         }
-        self.app.post('/actors', data=data,
+        self.app.post('/actors', json=data,
                       headers=set_auth_header('producer'))
 
         actor_id = Actor.query.first().id
         res = self.app.patch(
-            f'/actors/{actor_id}', data=data,
+            f'/actors/{actor_id}', json=data,
             headers=set_auth_header('assistant'))
         self.assertEqual(res.status_code, 403)
         self.assertEqual(res.get_json()['message'], 'unauthorized')
@@ -219,7 +224,7 @@ class MainTestCase(unittest.TestCase):
             "name": "name",
             "gender": "M"
         }
-        self.app.post('/actors', data=data,
+        self.app.post('/actors', json=data,
                       headers=set_auth_header('producer'))
 
         actor_id = Actor.query.first().id
@@ -234,12 +239,12 @@ class MainTestCase(unittest.TestCase):
             "name": "name",
             "gender": "M"
         }
-        self.app.post('/actors', data=data,
+        self.app.post('/actors', json=data,
                       headers=set_auth_header('producer'))
 
         actor_id = Actor.query.first().id
         res = self.app.delete(
-            f'/actors/{actor_id}', data=data,
+            f'/actors/{actor_id}', json=data,
             headers=set_auth_header('producer'))
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.get_json()['success'], True)
@@ -249,12 +254,12 @@ class MainTestCase(unittest.TestCase):
             "name": "name",
             "gender": "M"
         }
-        self.app.post('/actors', data=data,
+        self.app.post('/actors', json=data,
                       headers=set_auth_header('producer'))
 
         actor_id = Actor.query.first().id
         res = self.app.delete(
-            f'/actors/{actor_id}', data=data,
+            f'/actors/{actor_id}', json=data,
             headers=set_auth_header('assistant'))
         self.assertEqual(res.status_code, 403)
 

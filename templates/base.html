@@ -16,10 +16,10 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
 	<div id="" class="navbar-menu">
 		<div class="navbar-end">
-			<a class="navbar-item" href="/movies">
+			<a class="navbar-item" href="/movies" id="movieLink">
 				Movies
 			</a>
-			<a class="navbar-item" href="/actors">
+			<a class="navbar-item" href="/actors" id="actorLink">
 				Actors
 			</a>
 			<div class="navbar-item">
@@ -32,6 +32,9 @@
 					</a>
 					<a id="addMovieButton" class="button is-primary modal-button" data-target="#movieModal" aria-haspopup="true">
 						<strong>Add movie</strong>
+					</a>
+					<a id="logoutButton" class="button is-primary" onclick="logOut()">
+						<strong>Log out</strong>
 					</a>
 				</div>
 			</div>
@@ -111,6 +114,7 @@
 
 	{# extended pages	#}
 
+	{% block index %}{% endblock %}
 	{% block login %}{% endblock %}
 	{% block movies %}{% endblock %}
 	{% block actors %}{% endblock %}
